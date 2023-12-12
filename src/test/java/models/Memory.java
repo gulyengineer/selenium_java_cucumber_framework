@@ -12,7 +12,7 @@ import static java.util.UUID.randomUUID;
 
 public class Memory {
 
-    private static final Map<String, Object> values = new HashMap<>();
+    private static Map<String, Object> values = new HashMap<>();
 
     public static Pattern templatePattern = Pattern.compile("<<(.*?)>>");
 
