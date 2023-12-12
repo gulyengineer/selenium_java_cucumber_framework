@@ -20,12 +20,12 @@ import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
 import static java.util.stream.Collectors.toList;
 import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElementLocated;
-import static step_definitions.UtilitySteps.savePageSource;
-import static step_definitions.UtilitySteps.takeScreenshot;
+import static stepdefinitions.UtilitySteps.savePageSource;
+import static stepdefinitions.UtilitySteps.takeScreenshot;
 import static utils.SeleniumConfig.driver;
 
 public class PageUtil {
-    public static ZoneId zoneId = ZoneId.of("Europe/London");
+    public static final ZoneId zoneId = ZoneId.of("Europe/London");
 
     private static String dateFormatPattern() {
         String osName = System.getProperty("os.name").toLowerCase();
@@ -50,10 +50,10 @@ public class PageUtil {
 
     public static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm").withZone(zoneId);
     public static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:00").withZone(zoneId);
-    public static long timeOutForWait = 90;
-    public static Duration timeOutForWaitInSeconds = ofSeconds(timeOutForWait);
-    public static Duration shorTimeOutForWaitInSeconds = ofSeconds(10);
-    public static Duration extendedTimeOutForWaitInSeconds = ofSeconds(500);
+    public static final long timeOutForWait = 90;
+    public static final Duration timeOutForWaitInSeconds = ofSeconds(timeOutForWait);
+    public static final Duration shorTimeOutForWaitInSeconds = ofSeconds(10);
+    public static final Duration extendedTimeOutForWaitInSeconds = ofSeconds(500);
 
     public static Instant now() {
         return Instant.from(dateTimeFormatter.parse(Instant.now().atZone(zoneId).format(dateTimeFormatter)));

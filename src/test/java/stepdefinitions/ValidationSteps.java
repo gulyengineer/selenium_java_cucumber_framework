@@ -1,4 +1,4 @@
-package step_definitions;
+package stepdefinitions;
 
 import io.cucumber.java8.En;
 
@@ -11,7 +11,7 @@ public class ValidationSteps implements En {
 
         When("I am on the Thanks page", () -> {
             String actualPageUrl = driver().getCurrentUrl();
-            assertEquals("https://formy-project.herokuapp.com/thanks",actualPageUrl);
+            assertEquals("https://formy-project.herokuapp.com/thanks", actualPageUrl);
         });
 
     }

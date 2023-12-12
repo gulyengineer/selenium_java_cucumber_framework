@@ -1,4 +1,4 @@
-package step_definitions;
+package stepdefinitions;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.En;
@@ -25,7 +25,7 @@ public class NavigationSteps implements En {
         });
     }
 
-    private void fillForm(String first_name, String last_name, String job_title,  String experience, String date) {
+    private void fillForm(String first_name, String last_name, String job_title, String experience, String date) {
         typeInto(id("first-name"), first_name);
         typeInto(id("last-name"), last_name);
         typeInto(id("job-title"), job_title);

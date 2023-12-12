@@ -1,4 +1,4 @@
-package step_definitions;
+package stepdefinitions;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -19,7 +19,8 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.time.Duration.ofHours;
 import static java.time.Duration.ofMinutes;
-import static models.Memory.generateAndSetRandomValue;
+import static models.Memory.forgetAll;
+import static models.Memory.setValue;
 import static org.openqa.selenium.OutputType.FILE;
 import static utils.SeleniumConfig.driver;
 
@@ -27,9 +28,7 @@ public class UtilitySteps implements En {
 
     public UtilitySteps() {
 
-        When("I take and screenshot with the filename {string}", (String filename) -> {
-            takeScreenshot(filename);
-        });
+        When("I take and screenshot with the filename {string}", UtilitySteps::takeScreenshot);
 
         When("I switch to the other tab", () -> {
             String currentHandle = driver().getWindowHandle();
@@ -42,24 +41,20 @@ public class UtilitySteps implements En {
             }
         });
 
-        When("I wait for {int} seconds", (Integer seconds) -> {
-            Thread.sleep(seconds * 1000);
-        });
+        When("I wait for {int} seconds", (Integer seconds) -> Thread.sleep(seconds * 1000));
 
-        When("I create a random string called {string}", (String string) -> {
-            generateAndSetRandomValue(string);
-        });
+        When("I create a random string called {string}", Memory::generateAndSetRandomValue);
 
         When("I set current time to CurrentDateTime", () -> {
             Instant now = PageUtil.now();
-            Memory.setValue("CurrentDateTime", now);
-            Memory.setValue("CurrentDate", now);
-            Memory.setValue("CurrentTime", now);
-            Memory.setValue("CurrentDateTime+1H", now.plus(ofHours(1)));
-            Memory.setValue("CurrentTime+1H", now.plus(ofHours(1)));
-            Memory.setValue("CurrentTime+1M", now.plus(ofMinutes(1)));
-            Memory.setValue("CurrentTime+2M", now.plus(ofMinutes(2)));
-            Memory.setValue("CurrentTime+3M", now.plus(ofMinutes(3)));
+            setValue("CurrentDateTime", now);
+            setValue("CurrentDate", now);
+            setValue("CurrentTime", now);
+            setValue("CurrentDateTime+1H", now.plus(ofHours(1)));
+            setValue("CurrentTime+1H", now.plus(ofHours(1)));
+            setValue("CurrentTime+1M", now.plus(ofMinutes(1)));
+            setValue("CurrentTime+2M", now.plus(ofMinutes(2)));
+            setValue("CurrentTime+3M", now.plus(ofMinutes(3)));
         });
     }
 
@@ -87,7 +82,7 @@ public class UtilitySteps implements En {
 
     @Before
     public void ResetMemory() {
-        Memory.forgetAll();
+        forgetAll();
     }
 
     @After()

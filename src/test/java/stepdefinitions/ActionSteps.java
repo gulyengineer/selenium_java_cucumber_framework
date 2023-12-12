@@ -1,4 +1,4 @@
-package step_definitions;
+package stepdefinitions;
 
 import io.cucumber.java8.En;
 
@@ -9,9 +9,7 @@ public class ActionSteps implements En {
 
     public ActionSteps() {
 
-        When("I submit the form", () -> {
-            click(xpath("//a[text()='Submit']"));
-        });
+        When("I submit the form", () -> click(xpath("//a[text()='Submit']")));
 
     }
 }

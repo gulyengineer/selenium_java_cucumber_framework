@@ -1,5 +1,5 @@
 @solo
-Feature: Submit a form
+Feature: Fill out and submit a form
 
   As an
   I want  To
@@ -8,7 +8,7 @@ Feature: Submit a form
     Given I am on the "https://formy-project.herokuapp.com/form" page
     And I set current time to CurrentDateTime
     And I fill out the form with the following details:
-      | First Name   | Last Name   | Job   | Education   | Sex   | Experience   | Date               |
+      | First Name   | Last Name   | Job   | Education   | Sex   | Experience   | Date                |
       | <First name> | <Last Name> | <Job> | <Education> | <Sex> | <Experience> | <<CurrentDateTime>> |
     And I wait for 10 seconds
     And I submit the form

@@ -36,8 +36,7 @@ public class SearchContextWait extends FluentWait<SearchContext> {
         while (exceptionDriver instanceof WrapsDriver) {
             exceptionDriver = ((WrapsDriver) exceptionDriver).getWrappedDriver();
         }
-        if (exceptionDriver instanceof RemoteWebDriver) {
-            RemoteWebDriver remote = (RemoteWebDriver) exceptionDriver;
+        if (exceptionDriver instanceof RemoteWebDriver remote) {
             if (remote.getSessionId() != null) {
                 exception.addInfo(WebDriverException.SESSION_ID, remote.getSessionId().toString());
             }
@@ -54,7 +53,7 @@ class CustomExpectedConditions {
     }
 
     public static CustomExpectedCondition<WebElement> presenceOfElementLocated(final By locator) {
-        return new CustomExpectedCondition<WebElement>() {
+        return new CustomExpectedCondition<>() {
             public WebElement apply(SearchContext searchContext) {
                 return searchContext.findElement(locator);
             }
@@ -67,7 +66,7 @@ class CustomExpectedConditions {
     }
 
     public static CustomExpectedCondition<WebElement> elementToBeClickable(final By locator) {
-        return new CustomExpectedCondition<WebElement>() {
+        return new CustomExpectedCondition<>() {
             public WebElement apply(SearchContext searchContext) {
                 return searchContext.findElement(locator);
             }

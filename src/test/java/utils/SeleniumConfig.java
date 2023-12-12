@@ -15,12 +15,13 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static java.io.File.separator;
 
 public class SeleniumConfig {
 
-    private static List<WebDriver> drivers = new ArrayList<>();
+    private static final List<WebDriver> drivers = new ArrayList<>();
     private static int activeDriverIndex = 0;
     public static String DOWNLOAD_PATH = System.getProperty("user.dir") + separator + "externalFiles" + separator + "downloadFiles";
     public static Scenario scenario;
@@ -30,65 +31,6 @@ public class SeleniumConfig {
             newBrowser();
         }
         return drivers.get(activeDriverIndex);
-    }
-
-    @Before
-    public void before(Scenario scenario) {
-        this.scenario = scenario;
-
-        emptyDownloadFolder();
-        drivers.forEach(WebDriver::quit);
-        drivers.clear();
-    }
-
-    @After("@delete")
-    public void delete() {
-
-        if (scenario.isFailed()) {
-            System.out.println("Scenario failed. Did not delete!");
-        } else {
-
-        }
-        // Perform any cleanup actions after the scenario
-    }
-
-    private void emptyDownloadFolder() {
-        File downloadFolder = new File(DOWNLOAD_PATH);
-        if (downloadFolder.exists()) {
-            for (File file : downloadFolder.listFiles()) {
-                file.delete();
-            }
-        }
-    }
-
-    private static Object[] winHandles() {
-        return driver().getWindowHandles().toArray();
-    }
-
-    private static void switchToFirstWindow() {
-        switchToWindow(1);
-    }
-
-    public static void switchToLastWindow() {
-        switchToWindow(winHandles().length);
-    }
-
-    public static void switchToWindow(int windowIndex) {
-        driver().switchTo().window(winHandles()[windowIndex - 1].toString());
-    }
-
-    public static void switchToBrowser(int browserIndex) {
-        if (browserIndex > drivers.size()) {
-            newBrowser();
-            return;
-        }
-
-        activeDriverIndex = browserIndex - 1;
-    }
-
-    public static void newBrowser() {
-        drivers.add(getLocalDriver());
-        activeDriverIndex = drivers.size() - 1;
     }
 
     public static WebDriver getLocalDriver() {
@@ -141,8 +83,66 @@ public class SeleniumConfig {
             newDriver = new EdgeDriver(options);
         }
         addShutdownHook(newDriver);
+        assert newDriver != null;
         newDriver.manage().window().maximize();
         return newDriver;
+    }
+
+    @After("@delete")
+    public void delete() {
+
+        if (scenario.isFailed()) {
+            System.out.println("Scenario failed. Did not delete!");
+        }
+        // Perform any cleanup actions after the scenario
+    }
+
+    @Before
+    public void before(Scenario scenario) {
+        SeleniumConfig.scenario = scenario;
+
+        emptyDownloadFolder();
+        drivers.forEach(WebDriver::quit);
+        drivers.clear();
+    }
+
+    private static Object[] winHandles() {
+        return driver().getWindowHandles().toArray();
+    }
+
+    private static void switchToFirstWindow() {
+        switchToWindow(1);
+    }
+
+    public static void switchToLastWindow() {
+        switchToWindow(winHandles().length);
+    }
+
+    public static void switchToWindow(int windowIndex) {
+        driver().switchTo().window(winHandles()[windowIndex - 1].toString());
+    }
+
+    public static void switchToBrowser(int browserIndex) {
+        if (browserIndex > drivers.size()) {
+            newBrowser();
+            return;
+        }
+
+        activeDriverIndex = browserIndex - 1;
+    }
+
+    public static void newBrowser() {
+        drivers.add(getLocalDriver());
+        activeDriverIndex = drivers.size() - 1;
+    }
+
+    private void emptyDownloadFolder() {
+        File downloadFolder = new File(DOWNLOAD_PATH);
+        if (downloadFolder.exists()) {
+            for (File file : Objects.requireNonNull(downloadFolder.listFiles())) {
+                file.delete();
+            }
+        }
     }
 
     private static void addShutdownHook(WebDriver driver) {
