@@ -49,7 +49,7 @@ public class PageUtil {
     }
 
     public static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm").withZone(zoneId);
-    public static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:00").withZone(zoneId);
+    public static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:00").withZone(zoneId);
     public static final long timeOutForWait = 90;
     public static final Duration timeOutForWaitInSeconds = ofSeconds(timeOutForWait);
     public static final Duration shorTimeOutForWaitInSeconds = ofSeconds(10);
