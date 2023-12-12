@@ -1,0 +1,102 @@
+package step_definitions;
+
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import io.cucumber.java8.En;
+import models.Memory;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import utils.PageUtil;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.Instant;
+import java.util.Set;
+
+import static java.lang.String.format;
+import static java.time.Duration.ofHours;
+import static java.time.Duration.ofMinutes;
+import static models.Memory.generateAndSetRandomValue;
+import static org.openqa.selenium.OutputType.FILE;
+import static utils.SeleniumConfig.driver;
+
+public class UtilitySteps implements En {
+
+    public UtilitySteps() {
+
+        When("I take and screenshot with the filename {string}", (String filename) -> {
+            takeScreenshot(filename);
+        });
+
+        When("I switch to the other tab", () -> {
+            String currentHandle = driver().getWindowHandle();
+            Set<String> handles = driver().getWindowHandles();
+            for (String actual : handles) {
+                if (!actual.equalsIgnoreCase(currentHandle)) {
+                    driver().switchTo().window(actual);
+                    break;
+                }
+            }
+        });
+
+        When("I wait for {int} seconds", (Integer seconds) -> {
+            Thread.sleep(seconds * 1000);
+        });
+
+        When("I create a random string called {string}", (String string) -> {
+            generateAndSetRandomValue(string);
+        });
+
+        When("I set current time to CurrentDateTime", () -> {
+            Instant now = PageUtil.now();
+            Memory.setValue("CurrentDateTime", now);
+            Memory.setValue("CurrentDate", now);
+            Memory.setValue("CurrentTime", now);
+            Memory.setValue("CurrentDateTime+1H", now.plus(ofHours(1)));
+            Memory.setValue("CurrentTime+1H", now.plus(ofHours(1)));
+            Memory.setValue("CurrentTime+1M", now.plus(ofMinutes(1)));
+            Memory.setValue("CurrentTime+2M", now.plus(ofMinutes(2)));
+            Memory.setValue("CurrentTime+3M", now.plus(ofMinutes(3)));
+        });
+    }
+
+    public static void takeScreenshot(String filename) {
+        TakesScreenshot screenshot = ((TakesScreenshot) driver());
+        File screenshotFile = screenshot.getScreenshotAs(FILE);
+        File savedFile = new File(format("%s/test-reports/screenshots/%s", System.getProperty("user.dir"), filename));
+        try {
+            FileUtils.copyFile(screenshotFile, savedFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void savePageSource(String filename) {
+        File savedFile = new File(format("%s/target/screenshots/%s", System.getProperty("user.dir"), filename));
+        try {
+            FileWriter writer = new FileWriter(savedFile);
+            writer.write(driver().getPageSource().toLowerCase());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Before
+    public void ResetMemory() {
+        Memory.forgetAll();
+    }
+
+    @After()
+    public void takeScreenShotsOnStepFailure(Scenario scenario) {
+        if (scenario.isFailed()) {
+            byte[] screenshot = ((TakesScreenshot) driver()).getScreenshotAs(OutputType.BYTES);
+            // Attach screenshot to the report
+            scenario.attach(screenshot, "image/png", "Screenshot");
+        }
+    }
+
+}
