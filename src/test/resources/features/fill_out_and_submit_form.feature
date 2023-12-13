@@ -1,9 +1,10 @@
-@solo
+@smoke
 Feature: Fill out and submit a form
 
   As an
   I want  To
 
+  @solo
   Scenario Outline: Fill the form and submit
     Given I am on the "https://formy-project.herokuapp.com/form" page
     And I set current time to CurrentDateTime

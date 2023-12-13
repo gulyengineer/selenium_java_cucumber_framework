@@ -36,7 +36,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Run tests with Maven
-        run: xvfb-run mvn -Dtest=SmokeTest --file pom.xml test -q
+        run: xvfb-run mvn -DfailIfNoTests=false -Dtest=SmokeTest --file pom.xml test -q
         env:
           DISPLAY: 19
           CUCUMBER_PUBLISH_TOKEN:
