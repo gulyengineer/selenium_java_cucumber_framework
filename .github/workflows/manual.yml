@@ -55,7 +55,7 @@ jobs:
         uses: dorny/test-reporter@v1.6.0
         with:
           name: Test Report
-          path: "**/surefire-reports/TEST-*.SmokeTest-Chrome.xml"
+          path: "**/surefire-reports/TEST-SmokeTest.xml"
           reporter: java-junit
 #          token: ${{ secrets.GITHUB_TOKEN }}
 #      - name: Slack Notification
