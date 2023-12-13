@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual smoke tests
+name: Smoke Tests -Chrome
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -51,17 +51,17 @@ jobs:
         uses: dorny/test-reporter@v1.6.0
         with:
           name: Test Report
-          path: "**/surefire-reports/TEST-?????.SmokeTest.xml"
+          path: "**/surefire-reports/TEST-*.SmokeTest-Chrome.xml"
           reporter: java-junit
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Slack Notification
-        if: always()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: smoke-test-report
-          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE:
-          SLACK_TITLE: Cucumber Test Report ':rocket:'
-          SLACK_USERNAME: rtCamp
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Slack Notification
+#        if: always()
+#        uses: rtCamp/action-slack-notify@v2
+#        env:
+#          SLACK_CHANNEL: smoke-test-report
+#          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+#          SLACK_ICON: https://github.com/rtCamp.png?size=48
+#          SLACK_MESSAGE:
+#          SLACK_TITLE: Cucumber Test Report ':rocket:'
+#          SLACK_USERNAME: rtCamp
+#          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
