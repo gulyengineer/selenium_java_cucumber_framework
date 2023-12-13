@@ -2,10 +2,13 @@
 
 name: Smoke Tests -Chrome
 
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
-on:
-  workflow_dispatch:
+  # Controls when the action will run. Workflow runs when manually triggered using the UI
+  # or API.
+  push:
+    branches:
+      - main
+    pull_request:
+      types: [ opened, synchronize, reopened ]
 permissions:
   contents: write
   id-token: write
