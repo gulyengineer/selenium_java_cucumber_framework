@@ -1,11 +1,11 @@
 name: Smoke Tests-Safari
 
 on:
-  push:
-    branches:
-      - main
-    pull_request:
-      types: [ opened, synchronize, reopened ]
+  workflow_dispatch:
+permissions:
+  contents: write
+  id-token: write
+  checks: write
 
 jobs:
   test:
