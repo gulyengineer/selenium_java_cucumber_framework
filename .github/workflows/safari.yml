@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Run tests with Maven
-        run: mvn -DfailIfNoTests=false -Dtest=SmokeTest -Dbrowser=SAFARI--file pom.xml test -q
+        run: mvn -DfailIfNoTests=false -Dtest=SmokeTest -Dbrowser=SAFARI test -q
       - name: Store artifacts
         if: always()
         uses: actions/upload-artifact@v3
