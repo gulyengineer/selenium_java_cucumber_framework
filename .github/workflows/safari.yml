@@ -15,7 +15,11 @@ jobs:
       RUNNER_OS: true
       HEADLESS_SAFARI: true
     steps:
-      - uses: actions/checkout@v3
+      - name: Enable Safari Automation
+        run: |
+          sudo safaridriver --enable
+      - name: Checkout code    
+        uses: actions/checkout@v3
       - name: Set up JDK 18
         uses: actions/setup-java@v3
         with:
@@ -29,7 +33,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Run tests with Maven
-        run: mvn -DfailIfNoTests=false -Dtest=SmokeTest -Dbrowser=SAFARI test -q
+        run: mvn -Dtest=SmokeTest -Dbrowser=SAFARI test -q
       - name: Store artifacts
         if: always()
         uses: actions/upload-artifact@v3
