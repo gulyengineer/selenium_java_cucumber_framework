@@ -13,7 +13,6 @@ jobs:
     runs-on: macos-latest
     env:
       RUNNER_OS: true
-      HEADLESS_SAFARI: true
     steps:
       - name: Enable Safari Automation
         run: |

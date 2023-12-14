@@ -87,11 +87,6 @@ public class SeleniumConfig {
 
         if (getBrowser().equals("SAFARI")) {
             SafariOptions options = new SafariOptions();
-
-            if (Boolean.parseBoolean(System.getProperty("headless"))) {
-                options.setCapability("safari:useSimulator", true);
-                options.setCapability("safari:useTechnologyPreview", false);
-            }
             newDriver = new SafariDriver(options);
         }
         addShutdownHook(newDriver);
