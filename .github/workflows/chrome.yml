@@ -40,10 +40,10 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Run tests with Maven
-        run: xvfb-run mvn -DfailIfNoTests=false -Dtest=SmokeTest --file pom.xml test -q
+        run: mvn -DfailIfNoTests=false -Dtest=SmokeTest --file pom.xml test -q #xvfb-run (ubuntu)
         env:
           DISPLAY: 19
-          CUCUMBER_PUBLISH_TOKEN:
+          #CUCUMBER_PUBLISH_TOKEN:
       - name: Store artifacts
         if: always()
         uses: actions/upload-artifact@v3
