@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Smoke Tests-Chrome
+name: Smoke Tests -Chrome
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -18,8 +18,8 @@ permissions:
 jobs:
   test:
     name: Smoke tests
-    runs-on: windows-latest
-    #runs-on: ubuntu-latest
+    #runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       RUNNER_OS: true
       HEADLESS_CHROME: true
