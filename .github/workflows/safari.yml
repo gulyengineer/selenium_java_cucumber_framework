@@ -21,11 +21,6 @@ jobs:
           java-version: 18
           distribution: 'temurin'
           cache: maven
-      - name: Install Safari WebDriver
-        run: |
-          curl -O https://selenium-release.storage.googleapis.com/3.141/safari-driver-3.141.59.jar
-          sudo cp safari-driver-3.141.59.jar /usr/bin/safaridriver
-          sudo safaridriver --enable
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
