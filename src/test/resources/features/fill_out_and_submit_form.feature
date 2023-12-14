@@ -13,6 +13,7 @@ Feature: Fill out and submit a form
       | <First name> | <Last Name> | <Job> | <Education> | <Sex> | <Experience> |
     And I submit the form
     Then I am on the Thanks page
+    And I take and screenshot with the filename "thanks_page.png"
     Examples:
       | First name | Last Name | Job     | Education   | Sex  | Experience |
       | Testing    | Test      | QA Test | Grad School | Male | 0-1        |

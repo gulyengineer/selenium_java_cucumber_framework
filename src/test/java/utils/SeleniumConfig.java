@@ -11,6 +11,8 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,6 +83,16 @@ public class SeleniumConfig {
                 dc.setCapability("screen-resolution", "1920x1080");
             }
             newDriver = new EdgeDriver(options);
+        }
+
+        if (getBrowser().equals("SAFARI")) {
+            SafariOptions options = new SafariOptions();
+
+            if (Boolean.parseBoolean(System.getProperty("headless"))) {
+                options.setCapability("safari:useSimulator", true);
+                options.setCapability("safari:useTechnologyPreview", false);
+            }
+            newDriver = new SafariDriver(options);
         }
         addShutdownHook(newDriver);
         assert newDriver != null;
