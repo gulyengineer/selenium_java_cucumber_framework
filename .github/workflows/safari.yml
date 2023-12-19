@@ -16,8 +16,13 @@ jobs:
     steps:
       - name: Allow Remote Automation for Safari
         run: defaults write com.apple.Safari AllowRemoteAutomation 1
-      - name: Enable Safari Automation
-        run: sudo safaridriver --enable
+      - name: Configure safaridriver
+          run: |
+            defaults write com.apple.Safari IncludeDevelopMenu YES
+            defaults write com.apple.Safari AllowRemoteAutomation 1
+            sudo safaridriver --enable
+            safaridriver --version
+            safaridriver -p 0 &
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Set up JDK 18
