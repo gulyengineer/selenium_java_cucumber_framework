@@ -1,0 +1,64 @@
+# This is a basic workflow that is manually triggered
+
+name: Sample
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 'Username'
+        required: true
+        #default: 'Username'
+      password:
+        description: 'Password'
+        required: true
+permissions:
+  contents: write
+  id-token: write
+  checks: write
+
+jobs:
+  test:
+    name: Sample
+    #runs-on: windows-latest
+    runs-on: ubuntu-latest
+    env:
+      RUNNER_OS: true
+      HEADLESS_CHROME: true
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 18
+        uses: actions/setup-java@v3
+        with:
+          java-version: 18
+          distribution: 'temurin'
+          cache: maven
+      - name: Install Google Chrome
+        uses: browser-actions/setup-chrome@latest
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Run tests with Maven
+        run: mvn -DfailIfNoTests=false -Dtest=SmokeTest -DUsername=${{ github.event.inputs.username }} -DPassword=${{ github.event.inputs.password }}--file pom.xml test -q
+        env:
+          DISPLAY: 19
+      - name: Store artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: ./test-reports/
+      - name: Test Reporter
+        if: always()
+        uses: dorny/test-reporter@v1.6.0
+        with:
+          name: Test Report
+          path: "**/surefire-reports/TEST-SmokeTest.xml"
+          reporter: java-junit
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-error: 'false'
