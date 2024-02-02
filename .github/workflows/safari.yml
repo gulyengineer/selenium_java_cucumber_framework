@@ -14,10 +14,10 @@ jobs:
     env:
       RUNNER_OS: true
     steps:
-      - name: Allow Remote Automation for Safari
-        run: defaults write com.apple.Safari AllowRemoteAutomation 1
+     # - name: Allow Remote Automation for Safari
+     #   run: defaults write com.apple.Safari AllowRemoteAutomation 1
       - name: Configure safaridriver
-          run: |
+        run: |
             defaults write com.apple.Safari IncludeDevelopMenu YES
             defaults write com.apple.Safari AllowRemoteAutomation 1
             sudo safaridriver --enable
