@@ -44,7 +44,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Run tests with Maven
-        run: mvn -DfailIfNoTests=false -Dtest=SmokeTest -DUsername=${{ github.event.inputs.username }} -DPassword=${{ github.event.inputs.password }} --file pom.xml test -q
+        run: mvn -Dtest=SmokeTest -DUsername=${{ github.event.inputs.username }} -DPassword=${{ github.event.inputs.password }} --file pom.xml test -q
         env:
           DISPLAY: 19
       - name: Store artifacts
